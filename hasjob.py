@@ -4,6 +4,37 @@ import requests
 from bs4 import BeautifulSoup
 import dateutil.parser as parser
 
+# Getting the main page.
+main_url = 'https://hasjob.co'
+headers = {
+    'cookie': 'YOUR_COOKIE',
+}
+html = requests.get(main_url, headers=headers).content
+soup = BeautifulSoup(html, 'lxml')
+
+links = soup.findAll('a', {'class': 'stickie'}) + \
+    soup.findAll('div', {'class': 'stickie'})
+
+# Getting job urls
+job_urls = [link['data-href'] if link.get('data-href') else link['href'] for link in links]
+
+errors = []
+for url in job_urls:
+    # Fetching csrf_token of specific job form.
+    reveal_url = main_url + url + '/reveal'
+    html = requests.post(reveal_url, headers=headers).content
+    soup = BeautifulSoup(html, 'lxml')
+    try:
+        csrf_token = soup.find('input', {'id': 'csrf_token'}).get('value')
+    except Exception, e:
+        error = {
+            'job_id': url,
+            'exception': html,
+            'type': 'reveal'
+        }
+        errors.append(error)
+        continue
+>>>>>>> f5e5922be8cfa638440c8d42fe22b153f89e4ff1
 
 class Settings:
     """Settings."""
@@ -16,6 +47,7 @@ class Settings:
 
     APPLICATION_DATA = {
         'form.id': 'applyform',
+<<<<<<< HEAD
         'csrf_token': '%s',
         'apply_email': 'prafulbagai04@gmail.com',
         'apply_phone': '9971010041',
@@ -24,6 +56,12 @@ class Settings:
 
     HEADERS = {
         'cookie': '__cfduid=dc34a13ddeb5fee3f2c0763ab388de7de1555064307; ext_name=ojplmecpdpgccookcobabopnaifgidhf; _ga=GA1.2.784406599.1555065224; bhInfV_cl_id=8ZQQwlRf2Xf37S9dQAtVxecEJ1enHwZsvs18LDX0KI4k5DPFA2; _gid=GA1.2.1309881411.1558296661; lastuser=eyJhbGciOiJIUzUxMiIsInYiOjF9.eyJzZXNzaW9uaWQiOiJJSlk1SXpQS1ExZVNZcHBjeTNjamJ3IiwidXNlcmlkIjoiMGNUZG5RM3RUWk9QaXcyUXV0a0JhZyIsInVwZGF0ZWRfYXQiOiIyMDE5LTA1LTE5VDIwOjE0OjAxLjc0OTU3MCswMDowMCJ9.8PeBbpm5ybyK1x63fPB9rCSCClgF7m4U1SX7AMQu7SL6UloiMr0ZY9jOoHUj2BWx4ARj3jZWThLgZcvpCCHEqg; session=.eJw9jl1rwjAYhf9KyHUu8vGmaQteiHOjsmSIHZIOGZ1pt0ZbxQ9GK_3vyybs6pyLcx6eG96eT_X75bCrOpzeMPrAKbbDojFeC7te9pbPxUu-_yryfWPzOS8elkPhp4P1j63hi51us6FYv_bmezLBI8HV-Q9zDRgVAyhaM8WkAwkiAaVoVMdqC6UUnP7OP6tDV7ZV48LtjfGIQcwI40rwRISMEiUpibiUDNSG4OZYOnf6F9U-G5591psVCD0DMNO7RHO83DVcGK2uHUEsQbrsEaehcJoymsoYPekcj-MPAhxI7w.XOG5LQ.KAPgZKjwyPhyF3l6YbZnOzqAgFg',
+=======
+        'csrf_token': csrf_token,
+        'apply_email': 'YOUR_EMAIL',
+        'apply_phone': 'YOUR_PHONE_NUMBER',
+        'apply_message': 'YOUR_MESSAGE'
+>>>>>>> f5e5922be8cfa638440c8d42fe22b153f89e4ff1
     }
 
     ERROR_LIMIT = 5
