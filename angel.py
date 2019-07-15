@@ -5,18 +5,17 @@ import requests
 get_jobs_url = 'https://angel.co/job_listings/startup_ids'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:49.0) Gecko/20100101 Firefox/49.0',
-    'X-CSRF-Token': 'Vueu2m8NCwywNBkp+EOUGIin3E8PBMoPP+wWpKIeGHkLWIaASEyUUcWciTEvTty3OoC4mm0xhKJb0Fr8d61TRw==',
-    'Cookie': '_angellist=0ba9f735ed33c0440267ce78c37337b2; _ga=GA1.2.12242733.1502734621; _gid=GA1.2.1031921909.1502734621; ajs_user_id=%22520277%22; ajs_group_id=null; ajs_anonymous_id=%222a9878204be17c729d0a8b037568c396%22; amplitude_idangel.co=eyJkZXZpY2VJZCI6IjIzNTg0OGUyLWZjZjItNDE3NC05ZmRjLTJhMTkxZjllYTRjNlIiLCJ1c2VySWQiOiI1MjAyNzciLCJvcHRPdXQiOmZhbHNlLCJzZXNzaW9uSWQiOjE1MDI3ODUwNzIxMzIsImxhc3RFdmVudFRpbWUiOjE1MDI3ODU1MDk5MzIsImV2ZW50SWQiOjYsImlkZW50aWZ5SWQiOjEwLCJzZXF1ZW5jZU51bWJlciI6MTZ9',
+    'X-CSRF-Token': 'z8O11p9/rrKTl0Yhnb7OjwiDmMpBdhSnoRoOyzJ0BeM6YO+xPe93O9E9vnlLmxwNZUXsUszMlPtoILDL4j14/g==',
+    'Cookie': '__cfduid=dcba5ddbe1cd9b1792fef99c3d45be2561555090666; ajs_group_id=null; ext_name=ojplmecpdpgccookcobabopnaifgidhf; intercom-id-og2vxfl5=a63cf7df-5a23-4355-89fe-d49d5d0bc67b; bhInfV_cl_id=O2jf3D0XMxzFvX8KLGCnZjnIzrDQsUgmfDGBGgxyH9JQgiv5qx; __cf_bm=c70c02041506c2e2b610b4b1e096abd93650366a-1555313093-1800-AUhvYetWJHbYya4xJp/rQKpgR0NV56tuvLsIypeQAOeYFn73zLdOIx0pxvlBZ7gnrE8Hr/mIuWR7UKNBeDiz6vY=; visitor_hash=3227dfefd720358ddb652dde383c6efa; ajs_anonymous_id=%22ea43e63b1976369f300ac37dedc3a311%22; _angellist=0204223abde2a0234a4eed0c8c2b2a89; ajs_user_id=%22520277%22',
 }
 data = {
     'filter_data[roles][]': 'Software Engineer',
-    'filter_data[salary][max]': 200,
-    'filter_data[salary][min]': 25,
     'filter_data[types][]': 'full-time',
     'tab': 'find'
 }
 
-jobs = requests.post(get_jobs_url, data=data, headers=headers).json()
+jobs = requests.post(get_jobs_url, data=data, headers=headers)
+print(jobs)
 startups = jobs['ids']
 listings = jobs['listing_ids']
 
@@ -32,4 +31,4 @@ for startup, listing in zip(startups, listings):
         'tab': 'find'
     }
     apply_on_jobs = requests.post(apply_url, data=data, headers=headers)
-    print apply_on_jobs.json()['success']
+    # print apply_on_jobs.json()['success']
